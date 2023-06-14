@@ -1,0 +1,43 @@
+version: 2.1
+
+commands:
+jobs:
+  lint-docker-file:
+    docker:
+      - image: circleci/node:13.8.0
+    steps:
+      - checkout
+      - run:
+          name: Dockerfiles lint
+          command: |
+            npm install
+            npm run lint
+
+  deploy-application:
+    machine: true
+    steps:
+      - checkout
+      - run:
+          name: Build docker container
+          command: |
+            echo
+            sudo curl -LO https://nodejs.org/dist/v18.0.0/node-v18.0.0-linux-x64.tar.xz 
+            sudo tar -xvf node-v18.0.0-linux-x64.tar.xz 
+            sudo cp -r node-v18.0.0-linux-x64/{bin,include,lib,share} /usr/ 
+            node --version => v18.0.0
+            sudo apt install nodejs
+            # docker build
+            docker build -t capstone-devops ./capstone-devops
+            # add tagging
+            docker tag capstone-devops lqtoan20/capstone-devops:v1
+            # login docker
+            docker login -u lqtoan20 -p $DOCKERPASS
+            # push image to docker hub
+            docker push lqtoan20/capstone-devops:v1
+
+workflows:
+  the_jobs:
+    jobs:
+      - lint-docker-file
+      - build-and-push-node1:
+          requires: [lint-docker-file]
