@@ -23,13 +23,9 @@ jobs:
       - run:
           name: Build Docker image
           command: |
-            # docker build
             docker build -t capstone-devops ./react-application
-            # tagging
             docker tag capstone-devops lqtoan20/capstone-devops:v1
-            # login docker
             docker login -u lqtoan20 -p $DOCKERPASS
-            # push image to docker hub
             docker push lqtoan20/capstone-devops:v1
 
 workflows:
