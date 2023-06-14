@@ -39,5 +39,5 @@ workflows:
   the_jobs:
     jobs:
       - lint-docker-file
-      - build-and-push-node1:
+      - deploy-application:
           requires: [lint-docker-file]
