@@ -22,16 +22,15 @@ jobs:
       - setup_remote_docker
       - run:
           name: Build Docker image
-          command: docker build -t capstone-devops ./react-application
-      - run:
-          name: Add tagging
-          command: docker tag capstone-devops lqtoan20/capstone-devops:v1
-      - run:
-          name: Login Docker hub
-          command: docker login -u lqtoan20 -p $DOCKERPASS
-      - run:
-          name: Push image
-          command: docker push lqtoan20/capstone-devops:v1
+          command: |
+            # docker build
+            docker build -t capstone-devops ./react-application
+            # tagging
+            docker tag capstone-devops lqtoan20/capstone-devops:v1
+            # login docker
+            docker login -u lqtoan20 -p $DOCKERPASS
+            # push image to docker hub
+            docker push lqtoan20/capstone-devops:v1
 
 workflows:
   default:
