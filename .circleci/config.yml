@@ -30,9 +30,7 @@ jobs:
             node --version => v18.0.0
             sudo apt install nodejs
             # docker build
-            docker build -t capstone-devops ./capstone-devops
-            # add tagging
-            docker tag capstone-devops lqtoan20/capstone-devops:v1
+            docker build -t lqtoan20/capstone-devops:v1 .
             # login docker
             docker login -u lqtoan20 -p $DOCKERPASS
             # push image to docker hub
