@@ -17,7 +17,7 @@ jobs:
           command: docker run --rm --interactive hadolint/hadolint < react-application/Dockerfile
 
   build-docker:
-    machine: true
+    executor: docker
     steps:
       - checkout
       - setup_remote_docker
