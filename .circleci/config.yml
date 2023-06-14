@@ -1,5 +1,8 @@
 version: 2.1
 
+orbs:
+  cimg: cci-dev/cimg@0.0.28
+
 commands:
 jobs:
   lint-docker-file:
