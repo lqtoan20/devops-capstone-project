@@ -1,20 +1,20 @@
 version: 2.1
 
-orbs:
-  aws-sam-serverless: circleci/aws-sam-serverless@4.0.0
+executors:
+  docker:
+    docker:
+      - image: docker:stable
 
 commands:
 jobs:
   lint-docker-file:
-    docker:
-      - image: circleci/node:13.8.0
+    executor: docker
     steps:
       - checkout
+      - setup_remote_docker
       - run:
-          name: Dockerfiles lint
-          command: |
-            npm install
-            npm run lint
+          name: Run hadolint
+          command: docker run --rm --interactive hadolint/hadolint < Dockerfile
 
   deploy-application:
     machine: true
@@ -39,7 +39,7 @@ jobs:
             docker push lqtoan20/capstone-devops:v1
 
 workflows:
-  the_jobs:
+  default:
     jobs:
       - lint-docker-file
       - deploy-application:
