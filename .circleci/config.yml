@@ -24,7 +24,7 @@ jobs:
     executor: docker
     steps:
       - checkout
-      - setup_remote_docker:
+      - setup_remote_docker
       - run:
           name: Build Docker image
           command: docker build -t capstone-devops ./react-application
@@ -54,7 +54,7 @@ jobs:
         default: "us-east-1"
     steps:
       - checkout
-      - setup_remote_docker:
+      - setup_remote_docker
       - run:
           name: Install dependencies
           command: |
