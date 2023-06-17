@@ -28,6 +28,7 @@ spec:
       containers:
         - name: capstone-app
           image: lqtoan20/capstone-devops:v1
+          imagePullPolicy: Always
           ports:
             - name: tcp
               containerPort: 5000
