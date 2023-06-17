@@ -66,7 +66,7 @@ jobs:
           install-kubectl: true
       - kubernetes/create-or-update-resource:
           resource-file-path: ./k8s/deployment.yml
-          resource-name: deployment/capstone-app-deployment
+          resource-name: deployment/capstone-app
           get-rollout-status: true
           show-kubectl-command: true
       - kubernetes/create-or-update-resource:
