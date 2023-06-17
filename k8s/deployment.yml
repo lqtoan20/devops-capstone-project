@@ -32,7 +32,13 @@ spec:
           ports:
             - name: tcp
               containerPort: 5000
-          imagePullPolicy: Always
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "500m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
 
 ---
 apiVersion: v1
