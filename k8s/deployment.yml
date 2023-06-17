@@ -4,16 +4,16 @@ metadata:
   name: capstone-app-deployment
   namespace: default
   labels:
-    app: capstone-app-deployment
+    app: capstone-label
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: capstone-app-deployment
+      app: capstone-label
   template:
     metadata:
       labels:
-        app: capstone-app-deployment
+        app: capstone-label
     spec:
       affinity:
         nodeAffinity:
@@ -26,7 +26,7 @@ spec:
                       - amd64
                       - arm64
       containers:
-        - name: capstone-app-deployment
+        - name: capstone-app
           image: lqtoan20/capstone-devops:v1
           ports:
             - name: tcp
@@ -37,13 +37,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: capstone-app-deployment
+  name: capstone-service
   namespace: default
   labels:
-    app: capstone-app-deployment
+    app: capstone-label
 spec:
   selector:
-    app: capstone-app-deployment
+    app: capstone-label
   type: LoadBalancer
   ports:
     - protocol: TCP
