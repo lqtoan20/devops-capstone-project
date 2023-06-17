@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: capstone-app-deployment
+  namespace: default
+  labels:
+    app: capstone-label
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: capstone-label
+  template:
+    metadata:
+      labels:
+        app: capstone-label
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/arch
+                    operator: In
+                    values:
+                      - amd64
+                      - arm64
+      containers:
+        - name: capstone-app
+          image: lqtoan20/capstone-devops:v1
+          ports:
+            - name: tcp
+              containerPort: 5000
+          imagePullPolicy: Always
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: capstone-service
+  namespace: capstone-namespace
+  labels:
+    app: capstone-label
+spec:
+  selector:
+    app: capstone-label
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 5000

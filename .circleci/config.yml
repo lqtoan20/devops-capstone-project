@@ -1,5 +1,9 @@
 version: 2.1
 
+orbs:
+  aws-eks: circleci/aws-eks@2.2.0
+  kubernetes: circleci/kubernetes@1.2.0
+
 executors:
   docker:
     docker:
@@ -20,7 +24,7 @@ jobs:
     executor: docker
     steps:
       - checkout
-      - setup_remote_docker
+      - setup_remote_docker:
       - run:
           name: Build Docker image
           command: docker build -t capstone-devops ./react-application
@@ -29,14 +33,61 @@ jobs:
           command: docker tag capstone-devops lqtoan20/capstone-devops:v1
       - run:
           name: Login Docker hub
-          command: docker login -u lqtoan20 -p $DOCKERPASS
+          command: docker login -u $DOCKER_USERNAME -p $DOCKER_PASS
       - run:
           name: Push image
           command: docker push lqtoan20/capstone-devops:v1
 
+  deploy:
+    docker:
+      - image: amazon/aws-cli
+    parameters:
+      cluster-name:
+        description: |
+          Name of the EKS cluster
+        type: string
+        default: "CapstoneEKS-atdoijkN1Ax1"
+      aws-region:
+        description: |
+          AWS region
+        type: string
+        default: "us-east-1"
+    steps:
+      - checkout
+      - setup_remote_docker:
+      - run:
+          name: Install dependencies
+          command: |
+            sudo apt install -y tar gzip curl
+      - kubernetes/install-kubectl
+      - aws-eks/update-kubeconfig-with-authenticator:
+          cluster-name: << parameters.cluster-name >>
+          aws-region: << parameters.aws-region >>
+          install-kubectl: true
+      - kubernetes/create-or-update-resource:
+          resource-file-path: ./k8s/deployment.yml
+          resource-name: deployment/ml-classification
+          get-rollout-status: true
+          show-kubectl-command: true
+      - kubernetes/create-or-update-resource:
+          resource-file-path: ./k8s/aws-auth.yml
+          resource-name: configmap/aws-auth
+      - run:
+          name: Test cluster
+          command: |
+            kubectl get nodes
+            kubectl get deployment
+            kubectl get pod -o wide
+            kubectl get services
+      - run:
+          name: Cleaning up
+          command: docker system prune
+
 workflows:
-  default:
+  deploy-react-app:
     jobs:
       - lint-docker-file
       - build-docker:
           requires: [lint-docker-file]
+      - deploy:
+          requires: [build-docker]
