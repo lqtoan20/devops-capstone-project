@@ -6,7 +6,7 @@ metadata:
     app: capstone-app
 spec:
   progressDeadlineSeconds: 3600
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: capstone-app
