@@ -6,7 +6,7 @@ metadata:
     app: capstone-app
 spec:
   progressDeadlineSeconds: 3600
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: capstone-app
@@ -21,18 +21,17 @@ spec:
         app: capstone-app
     spec:
       containers:
-        - name: capstone-app
-          image: lqtoan20/capstone-devops:v1
+        - image: lqtoan20/capstone-devops:v1
           imagePullPolicy: Always
+          name: capstone-app
           ports:
-            - name: tcp
-              containerPort: 5000
+            - containerPort: 5000
           resources:
             requests:
-              memory: "512Mi"
+              memory: "128Mi"
               cpu: "500m"
             limits:
-              memory: "1024Mi"
+              memory: "128Mi"
               cpu: "500m"
 
 ---
@@ -43,10 +42,11 @@ metadata:
   labels:
     app: capstone-app
 spec:
+  type: LoadBalancer
   selector:
     app: capstone-app
-  type: LoadBalancer
   ports:
-    - protocol: TCP
-      port: 5000
+    - port: 5000
       targetPort: 5000
+      nodePort: 30000
+      protocol: TCP
