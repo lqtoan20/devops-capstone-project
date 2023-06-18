@@ -128,7 +128,7 @@ Resources:
       AssociatePublicIpAddress: "true"
       IamInstanceProfile: !Ref InstanceProfile
       ImageId: !Ref ImageID
-      InstanceType: t2.medium
+      InstanceType: m5.large
       KeyName: !Ref KeyPairName
       SecurityGroups:
         - !Ref NodesSecurityGroup
