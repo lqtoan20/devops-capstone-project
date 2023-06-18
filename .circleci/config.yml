@@ -91,3 +91,6 @@ workflows:
           requires: [lint-docker-file]
       - deploy:
           requires: [build-docker]
+          filters:
+            branches:
+              only: [main]
