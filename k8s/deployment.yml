@@ -2,11 +2,10 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: capstone-app
-  namespace: default
   labels:
     app: capstone-app
 spec:
-  replicas: 2
+  replicas: 3
   selector:
     matchLabels:
       app: capstone-app
@@ -20,16 +19,6 @@ spec:
       labels:
         app: capstone-app
     spec:
-      # affinity:
-      #   nodeAffinity:
-      #     requiredDuringSchedulingIgnoredDuringExecution:
-      #       nodeSelectorTerms:
-      #         - matchExpressions:
-      #             - key: kubernetes.io/arch
-      #               operator: In
-      #               values:
-      #                 - amd64
-      #                 - arm64
       containers:
         - name: capstone-app
           image: lqtoan20/capstone-devops:v1
