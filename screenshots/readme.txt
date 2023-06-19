@@ -1,9 +1,8 @@
-# Capstone_Project
+git: https://github.com/lqtoan20/devops-capstone-project
+link webapp: http://a7bb18763788e46d791e8b9538f66622-1654461492.us-east-1.elb.amazonaws.com/
 
-[![lqtoan20](https://circleci.com/gh/lqtoan20/devops-capstone-project.svg?style=svg)](https://app.circleci.com/pipelines/github/lqtoan20/devops-capstone-project)
-
+More detail
 Link to verify:
-
 http://a7bb18763788e46d791e8b9538f66622-1654461492.us-east-1.elb.amazonaws.com/
 
 # Udacity Capstone Project
